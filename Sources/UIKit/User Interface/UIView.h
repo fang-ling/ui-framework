@@ -170,7 +170,7 @@ C_ASSUME_NONNULL_BEGIN
 /**
  * The receiver's superview, or `nil` if it has none.
  */
-@property (nonatomic, readonly) UIView* superview;
+@property (nullable, nonatomic, readonly) UIView* superview;
 
 /**
  * The receiver's immediate subviews.
@@ -231,6 +231,24 @@ C_ASSUME_NONNULL_BEGIN
  *   on top of any other subviews.
  */
 - (void)addSubview:(UIView*)view;
+
+/**
+ * Inserts a subview at the specified index.
+ *
+ * This method establishes a strong reference to `view` and sets its next
+ * responder to the receiver, which is its new superview.
+ *
+ * Views can have only one superview. If view already has a superview and that
+ * view is not the receiver, this method removes the previous superview before
+ * making the receiver its new superview.
+ *
+ * - Parameters:
+ *   - view: The view to insert. This value cannot be `nil`.
+ *   - index: The index in the array of the ``subviews`` property at which to
+ *     insert the view. Subview indices start at `0` and cannot be greater than
+ *     the number of subviews.
+ */
+- (void)insertSubview:(UIView*)view atIndex:(CInteger)index;
 
 /**
  * Unlinks the view from its superview and its window, and removes it from the
