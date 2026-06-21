@@ -20,6 +20,7 @@
 #ifndef UIKit_h
 #define UIKit_hGraphics
 
+#import "../../Graphics/UIColor.h"
 #import "../../Graphics/UIImage.h"
 #import "../../Graphics/UIImageConfiguration.h"
 #import "../../Graphics/UIImageSymbolConfiguration.h"

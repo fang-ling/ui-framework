@@ -19,6 +19,8 @@
 
 #import "UIView.h"
 
+#import "../Graphics/UIColor+Private.h"
+
 #import <JavaScriptCoreKit/JavaScriptCoreKit.h>
 
 C_ASSUME_NONNULL_BEGIN
@@ -35,6 +37,10 @@ C_ASSUME_NONNULL_BEGIN
 
 @implementation UIView
 
++ (Class)layerClass {
+  return CoreAnimationDivisionLayer.class;
+}
+
 - (instancetype)initWithFrame:(CoreFoundationRectangle)frame {
   if (!(self = [super init])) {
     return nil;
@@ -49,8 +55,20 @@ C_ASSUME_NONNULL_BEGIN
   return self;
 }
 
-+ (Class)layerClass {
-  return CoreAnimationDivisionLayer.class;
+- (nullable UIColor*)backgroundColor {
+  return self.layer.backgroundColor;
+}
+
+- (void)setBackgroundColor:(nullable UIColor*)backgroundColor {
+  self.layer.backgroundColor = backgroundColor;
+}
+
+- (CBoolean)isHidden {
+  return self.layer.isHidden;
+}
+
+- (void)setIsHidden:(CBoolean)isHidden {
+  self.layer.isHidden = isHidden;
 }
 
 - (CBoolean)needsDisplay {
@@ -82,15 +100,7 @@ C_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setBounds:(CoreFoundationRectangle)bounds {
-  self.bounds = bounds;
-}
-
-- (CBoolean)isHidden {
-  return self.layer.isHidden;
-}
-
-- (void)setIsHidden:(CBoolean)isHidden {
-  self.layer.isHidden = isHidden;
+  self.layer.bounds = bounds;
 }
 
 - (void)layoutSubviews {
@@ -155,6 +165,25 @@ C_ASSUME_NONNULL_BEGIN
     [JavaScriptCoreContext updateNode:layer.contents
                         styleProperty:@"visibility"
                            styleValue:@"visible"];
+  }
+
+  if (layer.cornerRadius > 0) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"border-radius"
+                           styleValue:$(@"%fpx", layer.cornerRadius)];
+  }
+
+  if (layer.masksToBounds) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"overflow"
+                           styleValue:@"hidden"];
+  }
+
+  if (layer.backgroundColor) {
+    let backgroundColorName = ((UIColor*)layer.backgroundColor).name;
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"background"
+                           styleValue:$(@"var(--%@)", backgroundColorName)];
   }
 
   /* Apply the frame. */

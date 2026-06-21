@@ -101,7 +101,7 @@ void UIKitDispatchControlEvent(
   }
 }
 
-+ (UIApplication*)sharedApplication {
++ (instancetype)sharedApplication {
   static let sharedApplication = (UIApplication*)nil;
 
   if (!sharedApplication) {

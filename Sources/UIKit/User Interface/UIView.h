@@ -17,6 +17,7 @@
  *  limitations under the License.
  */
 
+#import "../Graphics/UIColor.h"
 #import "../User Interactions/UIResponder.h"
 
 #import <CKit/CKit.h>
@@ -24,18 +25,15 @@
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface UIView: UIResponder <CoreAnimationLayerDelegate>
-
 /**
- * The view's Animation Framework layer to use for rendering.
+ * ## Topics
  *
- * This property is never `nil`. The view is the layer's delegate.
+ * ### Configuring a view's visual appearance
  *
- * > Warning: Because the view is the layer's delegate, never make the view
- *   the delegate of another ``Layer`` object. Additionally, never change the
- *   delegate of this layer object.
+ * - ``backgroundColor``
+ * - ``isHidden``
  */
-@property (nonatomic, readonly) CoreAnimationLayer* layer;
+@interface UIView: UIResponder <CoreAnimationLayerDelegate>
 
 /**
  * The class used to create the layer for instances of this class.
@@ -47,7 +45,49 @@ C_ASSUME_NONNULL_BEGIN
  * This property is used only once early in the creation of the view in order to
  * create the corresponding layer object.
  */
-@property (nonatomic, readonly, class) Class layerClass;
+@property (class, nonatomic, readonly) Class layerClass;
+
+/**
+ * The view's background color.
+ *
+ * Changes to this property can be animated. The default value is `nil`, which
+ * results in a transparent background color.
+ */
+@property (nullable, nonatomic, copy) UIColor* backgroundColor;
+
+/**
+ * A Boolean value that determines whether the view is hidden.
+ *
+ * Setting the value of this property to `yes` hides the receiver and
+ * setting it to `no` shows the receiver. The default value is `no`.
+ *
+ * A hidden view disappears from its window and does not receive input
+ * events. It remains in its superview's list of subviews, however, and
+ * participates in autoresizing as usual. Hiding a view with subviews has the
+ * effect of hiding those subviews and any view descendants they might have.
+ * This effect is implicit and does not alter the hidden state of the
+ * receiver's descendants.
+ *
+ * Hiding the view that is the window's current first responder causes the
+ * view's next valid key view to become the new first responder.
+ *
+ * The value of this property reflects the state of the receiver only and
+ * does not account for the state of the receiver's ancestors in the view
+ * hierarchy. Thus this property can be `no` but the receiver may still be
+ * hidden if an ancestor is hidden.
+ */
+@property (nonatomic) CBoolean isHidden;
+
+/**
+ * The view's Animation Framework layer to use for rendering.
+ *
+ * This property is never `nil`. The view is the layer's delegate.
+ *
+ * > Warning: Because the view is the layer's delegate, never make the view
+ *   the delegate of another ``Layer`` object. Additionally, never change the
+ *   delegate of this layer object.
+ */
+@property (nonatomic, readonly) CoreAnimationLayer* layer;
 
 /**
  * A Boolean value indicating whether the receiver's entire bounds rectangle
@@ -141,29 +181,6 @@ C_ASSUME_NONNULL_BEGIN
  * Changes to this property can be animated.
  */
 @property (nonatomic) CoreFoundationRectangle bounds;
-
-/**
- * A Boolean value that determines whether the view is hidden.
- *
- * Setting the value of this property to `true` hides the receiver and
- * setting it to `false` shows the receiver. The default value is `false`.
- *
- * A hidden view disappears from its window and does not receive input
- * events. It remains in its superview's list of subviews, however, and
- * participates in autoresizing as usual. Hiding a view with subviews has the
- * effect of hiding those subviews and any view descendants they might have.
- * This effect is implicit and does not alter the hidden state of the
- * receiver's descendants.
- *
- * Hiding the view that is the window's current first responder causes the
- * view's next valid key view to become the new first responder.
- *
- * The value of this property reflects the state of the receiver only and
- * does not account for the state of the receiver's ancestors in the view
- * hierarchy. Thus this property can be false but the receiver may still be
- * hidden if an ancestor is hidden.
- */
-@property (nonatomic) CBoolean isHidden;
 
 //  public var translatesAutoresizingMaskIntoConstraints = true
 
