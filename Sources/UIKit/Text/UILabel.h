@@ -17,10 +17,12 @@
  *  limitations under the License.
  */
 
+#import "UIFont.h"
+#import "../Graphics/UIColor.h"
+#import "../User Interface/UIView.h"
+
 #import <CKit/CKit.h>
 #import <FoundationKit/FoundationKit.h>
-
-#import "UIView.h"
 
 C_ASSUME_NONNULL_BEGIN
 
@@ -86,6 +88,14 @@ C_ASSUME_NONNULL_BEGIN
  * Labels provide valuable information to your users. To make sure that
  * information reaches a wide audience, internationalize text and support
  * accessibility in your labels.
+ *
+ * ## Topics
+ *
+ * ### Accessing the text attributes
+ *
+ * - ``text``
+ * - ``font``
+ * - ``textColor``
  */
 @interface UILabel: UIView
 
@@ -98,7 +108,39 @@ C_ASSUME_NONNULL_BEGIN
  * styles the new string using ``shadowColor``, ``textAlignment``, and other
  * style-related properties of the class.
  */
-@property (nonatomic, copy) FoundationString* text;
+@property (nullable, nonatomic, copy) FoundationString* text;
+
+/**
+ * The font of the text.
+ *
+ * If you're using styled text, assigning a new value to this property applies
+ * the font to the entirety of the string in the ``attributedText`` property.
+ * If you want to apply the font to only a portion of the text, create a new
+ * attributed string with the desired style information and associate it with
+ * the label. If you aren't using styled text, this property applies to the
+ * entire text string in the ``text`` property.
+ *
+ * The default value for this property is the system font at a size of 17 pixels
+ * (using the ``makeSystemFontOfSize:`` class method of ``UIFont``). Setting
+ * this property to `nil` causes it to be reset to the default value.
+ */
+@property (nullresettable, nonatomic) UIFont* font;
+
+/**
+ * The color of the text.
+ *
+ * If you're using styled text, assigning a new value to this property applies
+ * the color to the entirety of the string in the ``attributedText`` property.
+ * If you want to apply the color to only a portion of the text, create a new
+ * attributed string with the desired style information and associate it with
+ * the label. If you aren't using styled text, this property applies to the
+ * entire text string in the text property.
+ *
+ * The default value for this property is the system's ``labelColor`` color,
+ * which adapts dynamically to Dark Mode changes. Setting this property to `nil`
+ * causes it to be reset to the default value.
+ */
+@property (nullresettable, nonatomic) UIColor* textColor;
 
 @end
 

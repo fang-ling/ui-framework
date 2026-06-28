@@ -25,9 +25,11 @@ SWIFT_VERSION="swift-6.3-RELEASE.xctoolchain"
 SWIFT=~"/Library/Developer/Toolchains/${SWIFT_VERSION}/usr/bin/swift"
 SWIFT_SDK="6.3-RELEASE-wasm32-unknown-wasip1-threads"
 
+rm -rf Examples/ui-kit-example/.build
+
 $SWIFT build \
   --package-path Examples/ui-kit-example \
-  -c release \
+  -c debug \
   --swift-sdk $SWIFT_SDK \
   -Xswiftc -cross-module-optimization \
   -Xswiftc -Xclang-linker \

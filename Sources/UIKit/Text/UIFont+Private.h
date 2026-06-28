@@ -1,8 +1,8 @@
 /*
- *  UIImageSymbolConfiguration+Private.h
+ *  UIFont+Private.h
  *  ui-kit
  *
- *  Created by Fang Ling on 2026/6/6.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,10 +17,16 @@
  *  limitations under the License.
  */
 
-#import "UIImageSymbolConfiguration.h"
+#import "UIFont.h"
 
-@interface UIImageSymbolConfiguration()
+#import <CKit/CKit.h>
 
-@property (nonatomic) CFloatingPoint pointSize;
+C_ASSUME_NONNULL_BEGIN
+
+@interface UIFont ()
+
+@property (nonatomic) CFloatingPoint weight;
 
 @end
+
+C_ASSUME_NONNULL_END

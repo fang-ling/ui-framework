@@ -22,6 +22,32 @@
 C_ASSUME_NONNULL_BEGIN
 
 /**
+ * Constants that indicate which weight variant of a symbol image to use.
+ *
+ * The definition of a symbol image includes multiple scale and weight variants.
+ * The weight variants offer a way to progressively thicken some or all of the
+ * image's lines. Weights do not correspond to a specific line thickness.
+ *
+ * ## Topics
+ *
+ * ### Symbol image weights
+ *
+ * - ``kUIImageSymbolWeightRegular``
+ * - ``kUIImageSymbolWeightMedium``
+ */
+typedef enum UIImageSymbolWeight {
+  /**
+   * A regular weight.
+   */
+  kUIImageSymbolWeightRegular = 400,
+
+  /**
+   * A medium weight.
+   */
+  kUIImageSymbolWeightMedium = 510
+} UIImageSymbolWeight;
+
+/**
  * An object that contains the specific font, size, style, and weight attributes
  * to apply to a symbol image.
  *
@@ -36,7 +62,9 @@ C_ASSUME_NONNULL_BEGIN
  *
  * ### Creating a symbol configuration
  *
- * - ``configurationWithPointSize:``
+ * - ``makeConfigurationWithPointSize:``
+ * - ``makeConfigurationWithPointSize:weight:``
+ * - ``UIImageSymbolWeight``
  */
 @interface UIImageSymbolConfiguration: UIImageConfiguration
 
@@ -49,6 +77,21 @@ C_ASSUME_NONNULL_BEGIN
  * - Returns: A new symbol configuration object with the specified information.
  */
 + (instancetype)makeConfigurationWithPointSize:(CFloatingPoint)pointSize;
+
+/**
+ * Creates a configuration object with the specified point-size and weight
+ * information.
+ *
+ * - Parameters:
+ *   - pointSize: The system font point size to use for the configuration.
+ *   - weight: The symbol image weight variant to select. Specify a value that
+ *     is comparable to the font weight of any matching text. For a list of
+ *     possible values, see ``UIImageSymbolWeight``.
+ *
+ * - Returns: A new symbol configuration object with the specified information.
+ */
++ (instancetype)makeConfigurationWithPointSize:(CFloatingPoint)pointSize
+                                        weight:(UIImageSymbolWeight)weight;
 
 @end
 

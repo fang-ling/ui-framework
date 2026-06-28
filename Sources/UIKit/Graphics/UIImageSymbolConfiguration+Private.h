@@ -1,5 +1,5 @@
 /*
- *  UIImageView.m
+ *  UIImageSymbolConfiguration+Private.h
  *  ui-kit
  *
  *  Created by Fang Ling on 2026/6/6.
@@ -17,27 +17,17 @@
  *  limitations under the License.
  */
 
-#import "UIImageView.h"
+#import "UIImageSymbolConfiguration.h"
 
-#import "UIImage+Private.h"
-#import "UISymbolImageView.h"
+#import <CKit/CKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@implementation UIImageView
+@interface UIImageSymbolConfiguration()
 
-+ (instancetype)makeImageViewWithImage:(UIImage*)image {
-  if (image.type == kUIImageTypeSymbol) {
-    return [[_UISymbolImageView alloc] initWithImage:image];
-  }
+@property (nonatomic) CFloatingPoint pointSize;
 
-  let imageView =
-    [[UIImageView alloc] initWithFrame:CoreFoundationRectangleMake(0, 0, 0, 0)];
-
-  imageView.image = image;
-
-  return imageView;
-}
+@property (nonatomic) UIImageSymbolWeight weight;
 
 @end
 

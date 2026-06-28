@@ -19,6 +19,9 @@
 
 #import "UILabel.h"
 
+#import "../Graphics/UIColor+Private.h"
+#import "../Text/UIFont+Private.h"
+
 #import <CoreFoundationKit/CoreFoundationKit.h>
 #import <JavaScriptCoreKit/JavaScriptCoreKit.h>
 
@@ -26,14 +29,42 @@ C_ASSUME_NONNULL_BEGIN
 
 @implementation UILabel
 
+- (instancetype)initWithFrame:(CoreFoundationRectangle)frame {
+  if (!(self = [super initWithFrame:frame])) {
+    return nil;
+  }
+
+  self.font = [UIFont makeSystemFontOfSize:17];
+  self.textColor = UIColor.labelColor;
+
+  return self;
+}
+
 + (Class)layerClass {
   return CoreAnimationParagraphLayer.class;
 }
 
-- (void)setText:(FoundationString*)text {
+- (void)setText:(nullable FoundationString*)text {
+  if (self->_text == text) {
+    return;
+  }
+
   self->_text = text;
 
   self.needsLayout = yes;
+  self.needsDisplay = yes;
+}
+
+- (void)setFont:(nullable UIFont*)font {
+  self->_font = font ?: [UIFont makeSystemFontOfSize:17];
+
+  self.needsLayout = yes;
+  self.needsDisplay = yes;
+}
+
+- (void)setTextColor:(nullable UIColor*)textColor {
+  self->_textColor = textColor ?: UIColor.labelColor;
+
   self.needsDisplay = yes;
 }
 
@@ -53,9 +84,25 @@ C_ASSUME_NONNULL_BEGIN
                       styleProperty:@"overflow"
                          styleValue:@"hidden"];
 
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"font-size"
+                         styleValue:$(@"%fpx", self.font.pixelSize)];
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"font-weight"
+                         styleValue:$(@"%f", self.font.weight)];
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"line-height"
+                         styleValue:$(@"%fpx", self.font.lineHeight)];
+
   if (self.text) {
     [JavaScriptCoreContext updateNode:layer.contents
                           textContent:self.text];
+  }
+
+  if (self.textColor) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"color"
+                           styleValue:$(@"var(--%@)", self.textColor.name)];
   }
 }
 

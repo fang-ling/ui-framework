@@ -19,6 +19,8 @@
 
 #import "UIView.h"
 
+#import "../Graphics/UIColor+Private.h"
+
 #import <JavaScriptCoreKit/JavaScriptCoreKit.h>
 
 C_ASSUME_NONNULL_BEGIN
@@ -27,13 +29,17 @@ C_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readwrite) CoreAnimationLayer* layer;
 
-@property (nonatomic, readwrite) UIView* superview;
+@property (nullable, nonatomic, readwrite) UIView* superview;
 
 @property (nonatomic, readwrite) FoundationMutableArray* subviews;
 
 @end
 
 @implementation UIView
+
++ (Class)layerClass {
+  return CoreAnimationDivisionLayer.class;
+}
 
 - (instancetype)initWithFrame:(CoreFoundationRectangle)frame {
   if (!(self = [super init])) {
@@ -49,8 +55,20 @@ C_ASSUME_NONNULL_BEGIN
   return self;
 }
 
-+ (Class)layerClass {
-  return CoreAnimationDivisionLayer.class;
+- (nullable UIColor*)backgroundColor {
+  return self.layer.backgroundColor;
+}
+
+- (void)setBackgroundColor:(nullable UIColor*)backgroundColor {
+  self.layer.backgroundColor = backgroundColor;
+}
+
+- (CBoolean)isHidden {
+  return self.layer.isHidden;
+}
+
+- (void)setIsHidden:(CBoolean)isHidden {
+  self.layer.isHidden = isHidden;
 }
 
 - (CBoolean)needsDisplay {
@@ -82,15 +100,7 @@ C_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setBounds:(CoreFoundationRectangle)bounds {
-  self.bounds = bounds;
-}
-
-- (CBoolean)isHidden {
-  return self.layer.isHidden;
-}
-
-- (void)setIsHidden:(CBoolean)isHidden {
-  self.layer.isHidden = isHidden;
+  self.layer.bounds = bounds;
 }
 
 - (void)layoutSubviews {
@@ -113,24 +123,40 @@ C_ASSUME_NONNULL_BEGIN
 //  needsUpdateConstraints = true
 }
 
+- (void)insertSubview:(UIView*)view atIndex:(CInteger)index {
+  if (view.superview != self) {
+    [view removeFromSuperview];
+  }
+
+  [self.subviews insertObject:view atIndex:index];
+
+  [self.layer insertSublayer:view.layer atIndex:index];
+
+  view.superview = self;
+
+  // TODO: Auto Layout
+//  view.needsUpdateConstraints = true
+//  needsUpdateConstraints = true
+}
+
 - (void)removeFromSuperview {
-// TODO
-//  guard
-//    let index = superview?.subviews.firstIndex(where: { $0 === self })
-//  else {
-//    return
-//  }
-//
-//  superview?.subviews.remove(at: index)
-//
-//  superview = nil
-//
-//  layer.removeFromSuperlayer()
-//
-//  // TODO: Auto Layout
+  if (self.superview == nil) {
+    return;
+  }
+
+  [self.superview.subviews
+   removeAllObjectsWhere:^CBoolean(ObjectiveCAnyObject object) {
+    return [object isEqual:self];
+  }];
+  self.superview = nil;
+
+  [self.layer removeFromSuperlayer];
+
+  /* TODO: Auto Layout */
 }
 
 - (void)displayLayer:(CoreAnimationLayer*)layer {
+  /* TODO: Move the update for the layer property to CoreAnimationLayer. */
   if (self.isHidden) {
     [JavaScriptCoreContext updateNode:layer.contents
                         styleProperty:@"visibility"
@@ -139,6 +165,25 @@ C_ASSUME_NONNULL_BEGIN
     [JavaScriptCoreContext updateNode:layer.contents
                         styleProperty:@"visibility"
                            styleValue:@"visible"];
+  }
+
+  if (layer.cornerRadius > 0) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"border-radius"
+                           styleValue:$(@"%fpx", layer.cornerRadius)];
+  }
+
+  if (layer.masksToBounds) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"overflow"
+                           styleValue:@"hidden"];
+  }
+
+  if (layer.backgroundColor) {
+    let backgroundColorName = ((UIColor*)layer.backgroundColor).name;
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"background"
+                           styleValue:$(@"var(--%@)", backgroundColorName)];
   }
 
   /* Apply the frame. */

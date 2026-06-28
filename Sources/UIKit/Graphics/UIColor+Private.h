@@ -1,8 +1,8 @@
 /*
- *  UIImageSymbolConfiguration.m
+ *  UIColor+Private.h
  *  ui-kit
  *
- *  Created by Fang Ling on 2026/6/6.
+ *  Created by Fang Ling on 2026/6/19.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,21 +17,14 @@
  *  limitations under the License.
  */
 
-#import "UIImageSymbolConfiguration.h"
-
-#import "UIImageSymbolConfiguration+Private.h"
+#import <CKit/CKit.h>
+#import <FoundationKit/FoundationKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@implementation UIImageSymbolConfiguration
+@interface UIColor()
 
-+ (instancetype)makeConfigurationWithPointSize:(CFloatingPoint)pointSize {
-  let configuration = [[UIImageSymbolConfiguration alloc] init];
-
-  configuration.pointSize = pointSize;
-
-  return configuration;
-}
+@property (nonatomic) FoundationString* name;
 
 @end
 
