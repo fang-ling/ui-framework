@@ -20,6 +20,7 @@
 #import "UILabel.h"
 
 #import "../Graphics/UIColor+Private.h"
+#import "../Text/UIFont+Private.h"
 
 #import <CoreFoundationKit/CoreFoundationKit.h>
 #import <JavaScriptCoreKit/JavaScriptCoreKit.h>
@@ -33,6 +34,7 @@ C_ASSUME_NONNULL_BEGIN
     return nil;
   }
 
+  self.font = [UIFont makeSystemFontOfSize:17];
   self.textColor = UIColor.labelColor;
 
   return self;
@@ -48,6 +50,13 @@ C_ASSUME_NONNULL_BEGIN
   }
 
   self->_text = text;
+
+  self.needsLayout = yes;
+  self.needsDisplay = yes;
+}
+
+- (void)setFont:(nullable UIFont*)font {
+  self->_font = font ?: [UIFont makeSystemFontOfSize:17];
 
   self.needsLayout = yes;
   self.needsDisplay = yes;
@@ -74,6 +83,16 @@ C_ASSUME_NONNULL_BEGIN
   [JavaScriptCoreContext updateNode:layer.contents
                       styleProperty:@"overflow"
                          styleValue:@"hidden"];
+
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"font-size"
+                         styleValue:$(@"%fpx", self.font.pixelSize)];
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"font-weight"
+                         styleValue:$(@"%f", self.font.weight)];
+  [JavaScriptCoreContext updateNode:layer.contents
+                      styleProperty:@"line-height"
+                         styleValue:$(@"%fpx", self.font.lineHeight)];
 
   if (self.text) {
     [JavaScriptCoreContext updateNode:layer.contents
