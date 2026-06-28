@@ -52,13 +52,13 @@ C_ASSUME_NONNULL_BEGIN
   image.configuration = configuration;
   image.scale = 1.0;
 
-  let styleText = (FoundationString*)@"font-family: 'UIKit SF Pro'";
+  let styleText = (FoundationString*)@"";
 
   if (configuration &&
       [configuration isKindOfClass:UIImageSymbolConfiguration.class]) {
     let symbolConfig = (UIImageSymbolConfiguration*)configuration;
 
-    styleText = $(@"%@; font-size: %fpt", styleText, symbolConfig.pointSize);
+    styleText = $(@"font-size: %fpt", symbolConfig.pointSize);
   }
 
   image.size = [JavaScriptCoreContext measureTextSize:content

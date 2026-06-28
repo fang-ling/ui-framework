@@ -19,8 +19,16 @@
 
 #import "UIImageSymbolConfiguration.h"
 
+#import <CKit/CKit.h>
+
+C_ASSUME_NONNULL_BEGIN
+
 @interface UIImageSymbolConfiguration()
 
 @property (nonatomic) CFloatingPoint pointSize;
 
+@property (nonatomic) UIImageSymbolWeight weight;
+
 @end
+
+C_ASSUME_NONNULL_END

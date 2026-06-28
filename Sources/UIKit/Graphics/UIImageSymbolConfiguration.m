@@ -26,9 +26,18 @@ C_ASSUME_NONNULL_BEGIN
 @implementation UIImageSymbolConfiguration
 
 + (instancetype)makeConfigurationWithPointSize:(CFloatingPoint)pointSize {
+  let weight = kUIImageSymbolWeightRegular;
+
+  return [UIImageSymbolConfiguration makeConfigurationWithPointSize:pointSize
+                                                             weight:weight];
+}
+
++ (instancetype)makeConfigurationWithPointSize:(CFloatingPoint)pointSize
+                                        weight:(UIImageSymbolWeight)weight {
   let configuration = [[UIImageSymbolConfiguration alloc] init];
 
   configuration.pointSize = pointSize;
+  configuration.weight = weight;
 
   return configuration;
 }
