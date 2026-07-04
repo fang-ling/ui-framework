@@ -31,6 +31,13 @@
 
     :root {
       color-scheme: light dark;
+
+      /* Backgrounds (Light Mode) */
+      --background-material-system-chrome: #FFFFFFBF;
+
+      /* Background Blend Modes (Light Mode) */
+      --background-blend-mode-material-system-chrome: hard-light;
+
       /* Colors (Light Mode) */
       --color-accent:               #007AFF;
       --color-label-primary:        #000000;
@@ -61,7 +68,14 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {/* Colors (Dark Mode) */
+      :root {
+        /* Backgrounds (Dark Mode) */
+        --background-material-system-chrome: #1C1C1CE6;
+
+        /* Background Blend Modes (Dark Mode) */
+        --background-blend-mode-material-system-chrome: overlay;
+
+        /* Colors (Dark Mode) */
         --color-accent:               #0A84FF;
         --color-label-primary:        #FFFFFF;
       }
