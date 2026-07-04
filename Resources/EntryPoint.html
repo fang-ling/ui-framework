@@ -74,6 +74,10 @@
 </head>
 
 <body>
+  <span style="visibility: hidden; display: absolute">
+    FONT_LOADING_PLACEHOLDER_DO_NOT_REMOVE
+  </span>
+
   <script type="module">
     import {
       WASI,
@@ -142,6 +146,8 @@
 
     JavaScriptCoreInitialize(instance, memory)
 
-    instance.exports.main()
+    document.fonts.ready.then(() => {
+      instance.exports.main()
+    })
   </script>
 </body>
