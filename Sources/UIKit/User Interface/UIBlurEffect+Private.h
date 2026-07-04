@@ -21,7 +21,7 @@
 
 #import <FoundationKit/FoundationKit.h>
 
-@interface UIBlurEffect()
+@interface UIBlurEffect ()
 
 @property (nonatomic, copy) FoundationString* background;
 
