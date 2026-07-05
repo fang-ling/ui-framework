@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 ##
-##  build-ui-kit-example.zsh
+##  BuildUIKitExample.zsh
 ##  ui-kit
 ##
 ##  Created by Fang Ling on 2026/3/15.
