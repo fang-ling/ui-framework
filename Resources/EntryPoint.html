@@ -137,7 +137,7 @@
       shared: true
     })
     const { instance } = await WebAssembly.instantiateStreaming(
-      fetch("/Examples/ui-kit-example/.build/debug/UIKitExample.wasm"),
+      fetch("/Examples/ui-kit-example/.build/release/UIKitExample.wasm"),
       {
         wasi_snapshot_preview1: wasi.wasiImport,
         env: {

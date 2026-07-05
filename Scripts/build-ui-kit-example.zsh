@@ -29,7 +29,7 @@ rm -rf Examples/ui-kit-example/.build
 
 $SWIFT build \
   --package-path Examples/ui-kit-example \
-  -c debug \
+  -c release \
   --swift-sdk $SWIFT_SDK \
   -Xswiftc -cross-module-optimization \
   -Xswiftc -Xclang-linker \
@@ -38,6 +38,7 @@ $SWIFT build \
   -Xlinker --export=main \
   -Xlinker --export=UIKitDispatchControlEvent
 
+mkdir -p Resources/JavaScripts
 cp ../javascript-core-kit/Resources/*.js Resources/JavaScripts/
 
 echo "  - Local: http://localhost:3000/Resources/EntryPoint.html"
