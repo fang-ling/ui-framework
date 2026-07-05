@@ -1,8 +1,8 @@
 /*
- *  AppDelegate.h
- *  ui-kit-examples
+ *  UITabBarAppearance.h
+ *  ui-kit
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,12 +17,21 @@
  *  limitations under the License.
  */
 
+#import "UIBarAppearance.h"
+
 #import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface AppDelegate: UIResponder <UIApplicationDelegate>
+/**
+ * An object for customizing the appearance of a tab bar.
+ *
+ * After creating a ``UITabBarAppearance`` object, use the methods and
+ * properties of this class to specify the appearance of items in the tab bar.
+ * Use the inherited properties from ``UIBarAppearance`` to configure the
+ * background and shadow attributes of the tab bar itself.
+ */
+@interface UITabBarAppearance: UIBarAppearance
 
 @end
 

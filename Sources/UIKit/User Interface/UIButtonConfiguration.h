@@ -18,6 +18,7 @@
  */
 
 #import "UIGeometry.h"
+#import "../Graphics/UIColor.h"
 #import "../Graphics/UIImage.h"
 #import "../Graphics/UIImageSymbolConfiguration.h"
 
@@ -47,6 +48,10 @@ C_ASSUME_NONNULL_BEGIN
  * - ``imagePadding``
  * - ``imagePlacement``
  * - ``preferredSymbolConfigurationForImage``
+ *
+ * ### Configuring button colors
+ *
+ * - ``baseForegroundColor``
  */
 @interface UIButtonConfiguration: ObjectiveCObject
 
@@ -89,6 +94,14 @@ C_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy)
   UIImageSymbolConfiguration* preferredSymbolConfigurationForImage;
+
+/**
+ * The untransformed color for foreground views.
+ *
+ * The button configuration may transform the base color before applying it to
+ * foreground views.
+ */
+@property (nullable, nonatomic) UIColor* baseForegroundColor;
 
 /**
  * Creates a configuration for a button with a transparent background.

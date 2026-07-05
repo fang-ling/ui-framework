@@ -31,9 +31,18 @@
 
     :root {
       color-scheme: light dark;
+
+      /* Backgrounds (Light Mode) */
+      --background-material-system-chrome: #FFFFFFBF;
+
+      /* Background Blend Modes (Light Mode) */
+      --background-blend-mode-material-system-chrome: hard-light;
+
       /* Colors (Light Mode) */
       --color-accent:               #007AFF;
       --color-label-primary:        #000000;
+      --color-system-chrome-shadow: #0000004D;
+      --color-tab-unselected:       #999999;
     }
 
     .view {
@@ -61,9 +70,18 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {/* Colors (Dark Mode) */
+      :root {
+        /* Backgrounds (Dark Mode) */
+        --background-material-system-chrome: #1C1C1CE6;
+
+        /* Background Blend Modes (Dark Mode) */
+        --background-blend-mode-material-system-chrome: overlay;
+
+        /* Colors (Dark Mode) */
         --color-accent:               #0A84FF;
         --color-label-primary:        #FFFFFF;
+        --color-system-chrome-shadow: #FFFFFF26;
+        --color-tab-unselected:       #7E7E7E;
       }
 
       body {
@@ -74,6 +92,10 @@
 </head>
 
 <body>
+  <span style="visibility: hidden; position: absolute">
+    FONT_LOADING_PLACEHOLDER_DO_NOT_REMOVE
+  </span>
+
   <script type="module">
     import {
       WASI,
@@ -82,12 +104,14 @@
       ConsoleStdout
     } from "/Resources/JavaScripts/WASIShims.js"
     import {
+      JavaScriptCoreGlobalObjectFetch,
       JavaScriptCoreInitialize,
       JavaScriptCoreWindowGetWidth,
       JavaScriptCoreWindowGetHeight,
       JavaScriptCoreMeasureTextSize,
       JavaScriptCoreNodeInitializeButtonNode,
       JavaScriptCoreNodeInitializeDivisionNode,
+      JavaScriptCoreNodeInitializeImageNode,
       JavaScriptCoreNodeInitializeParagraphNode,
       JavaScriptCoreNodeInitializeSpanNode,
       JavaScriptCoreNodeAddClickEventListener,
@@ -95,6 +119,7 @@
       JavaScriptCoreNodeInsertSubnodeAtIndex,
       JavaScriptCoreNodeRemoveFromSupernode,
       JavaScriptCoreNodeUpdateClassName,
+      JavaScriptCoreNodeUpdateSourceContent,
       JavaScriptCoreNodeUpdateStyleProperty,
       JavaScriptCoreNodeUpdateTextContent
     } from "/Resources/JavaScripts/JavaScriptCoreKit.js"
@@ -115,17 +140,19 @@
       shared: true
     })
     const { instance } = await WebAssembly.instantiateStreaming(
-      fetch("/Examples/ui-kit-example/.build/debug/UIKitExample.wasm"),
+      fetch("/Examples/ui-kit-example/.build/release/UIKitExample.wasm"),
       {
         wasi_snapshot_preview1: wasi.wasiImport,
         env: {
           memory,
           swift_addNewDSOImage: () => {},
+          JavaScriptCoreGlobalObjectFetch,
           JavaScriptCoreWindowGetWidth,
           JavaScriptCoreWindowGetHeight,
           JavaScriptCoreMeasureTextSize,
           JavaScriptCoreNodeInitializeButtonNode,
           JavaScriptCoreNodeInitializeDivisionNode,
+          JavaScriptCoreNodeInitializeImageNode,
           JavaScriptCoreNodeInitializeParagraphNode,
           JavaScriptCoreNodeInitializeSpanNode,
           JavaScriptCoreNodeAddClickEventListener,
@@ -133,6 +160,7 @@
           JavaScriptCoreNodeInsertSubnodeAtIndex,
           JavaScriptCoreNodeRemoveFromSupernode,
           JavaScriptCoreNodeUpdateClassName,
+          JavaScriptCoreNodeUpdateSourceContent,
           JavaScriptCoreNodeUpdateStyleProperty,
           JavaScriptCoreNodeUpdateTextContent
         }
@@ -142,6 +170,8 @@
 
     JavaScriptCoreInitialize(instance, memory)
 
-    instance.exports.main()
+    document.fonts.ready.then(() => {
+      instance.exports.main()
+    })
   </script>
 </body>

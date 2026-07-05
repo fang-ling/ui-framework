@@ -1,8 +1,8 @@
 /*
- *  main.m
- *  ui-kit-example
+ *  UIVisualEffect.h
+ *  ui-kit
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,14 +18,15 @@
  */
 
 #import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
+#import <ObjectiveCKit/ObjectiveCKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-int main() {
-  UIApplicationMain("UIKitExampleApplicationDelegate");
+/**
+ * An initializer for visual effect views and blur and vibrancy effect objects.
+ */
+@interface UIVisualEffect: ObjectiveCObject
 
-  return 0;
-}
+@end
 
 C_ASSUME_NONNULL_END

@@ -1,8 +1,8 @@
 /*
- *  main.m
- *  ui-kit-example
+ *  UITabBarAppearance.m
+ *  ui-kit
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,15 +17,31 @@
  *  limitations under the License.
  */
 
-#import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
+#import "UITabBarAppearance.h"
+
+#import "UIBlurEffect.h"
+#import "../Graphics/UIColor.h"
 
 C_ASSUME_NONNULL_BEGIN
 
-int main() {
-  UIApplicationMain("UIKitExampleApplicationDelegate");
+@implementation UITabBarAppearance
 
-  return 0;
+- (instancetype)init {
+  if (!(self = [super init])) {
+    return nil;
+  }
+
+  self.backgroundEffect =
+    [UIBlurEffect makeEffectWithStyle:kUIBlurEffectStyleSystemChromeMaterial];
+  self.shadowColor = [UIColor makeColorWithName:@"color-system-chrome-shadow"];
+
+  return self;
 }
+
+- (instancetype)copy {
+  return self;
+}
+
+@end
 
 C_ASSUME_NONNULL_END

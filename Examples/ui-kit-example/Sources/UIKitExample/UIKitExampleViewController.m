@@ -1,6 +1,6 @@
 /*
- *  ViewController.m
- *  ui-kit-examples
+ *  UIKitExampleViewController.m
+ *  ui-kit-example
  *
  *  Created by Fang Ling on 2026/5/17.
  *
@@ -17,13 +17,15 @@
  *  limitations under the License.
  */
 
-#import "ViewController.h"
+#import "UIKitExampleViewController.h"
 
 #import <CoreFoundationKit/CoreFoundationKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface ViewController()
+@interface UIKitExampleViewController ()
+
+@property (nonatomic, copy) FoundationString* text;
 
 @property (nonatomic) UILabel* label;
 
@@ -31,7 +33,17 @@ C_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation ViewController
+@implementation UIKitExampleViewController
+
+- (instancetype)initWithText:(FoundationString*)text {
+  if (!(self = [super init])) {
+    return nil;
+  }
+
+  self.text = text;
+
+  return self;
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -46,7 +58,7 @@ C_ASSUME_NONNULL_BEGIN
                                                                           360,
                                                                           480)];
 
-  self.label.text = @"Hello, world! 🌍";
+  self.label.text = self.text;
 
   [self.view addSubview:self.label];
 }

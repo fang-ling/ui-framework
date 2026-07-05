@@ -18,7 +18,9 @@
  */
 
 #import "UIView.h"
+#import "../Graphics/UIColor.h"
 #import "../Graphics/UIImage.h"
+#import "../Graphics/UIImageSymbolConfiguration.h"
 
 C_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +41,14 @@ C_ASSUME_NONNULL_BEGIN
  * ### Creating an image view
  *
  * - ``makeImageViewWithImage:``
+ *
+ * ### Configuring the image view
+ *
+ * - ``tintColor``
+ *
+ * ### Configuring the appearance of symbol images
+ *
+ * - ``preferredSymbolConfiguration``
  */
 @interface UIImageView: UIView
 
@@ -63,6 +73,25 @@ C_ASSUME_NONNULL_BEGIN
  * view, the initial value of this property is `nil`.
  */
 @property (nonatomic) UIImage* image;
+
+/**
+ * A color used to tint template images in the view hierarchy.
+ *
+ * The default is `nil`. If a non-nil value is specified, the color is applied
+ * to any template images attached to the image view. For more information, see
+ * the ``renderingMode`` property on the ``UIImage`` class.
+ */
+@property (nullresettable, nonatomic) UIColor* tintColor;
+
+/**
+ * The configuration values to use when rendering the image.
+ *
+ * Use this property to configure the point size, text style, weight, or scale
+ * of a symbol image. For example, you might configure the image to be the same
+ * weight as text in a neighboring label.
+ */
+@property (nullable, nonatomic)
+  UIImageSymbolConfiguration* preferredSymbolConfiguration;
 
 /**
  * Creates an image view initialized with the specified image.

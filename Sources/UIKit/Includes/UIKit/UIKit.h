@@ -18,7 +18,7 @@
  */
 
 #ifndef UIKit_h
-#define UIKit_hGraphics
+#define UIKit_h
 
 #import "../../Graphics/UIColor.h"
 #import "../../Graphics/UIImage.h"
@@ -37,6 +37,8 @@
 #import "../../User Interface/UIGeometry.h"
 #import "../../User Interface/UIImageView.h"
 #import "../../User Interface/UIScreen.h"
+#import "../../User Interface/UITab.h"
+#import "../../User Interface/UITabBarController.h"
 #import "../../User Interface/UIViewController.h"
 #import "../../User Interface/UIWindow.h"
 

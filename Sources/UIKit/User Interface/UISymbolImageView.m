@@ -19,6 +19,7 @@
 
 #import "UISymbolImageView.h"
 
+#import "../Graphics/UIColor+Private.h"
 #import "../Graphics/UIImage+Private.h"
 #import "../Graphics/UIImageSymbolConfiguration+Private.h"
 
@@ -43,6 +44,19 @@ C_ASSUME_NONNULL_BEGIN
   return self;
 }
 
+- (void)setPreferredSymbolConfiguration:(nullable UIImageSymbolConfiguration*)
+                                          preferredSymbolConfiguration {
+  super.preferredSymbolConfiguration = preferredSymbolConfiguration;
+
+  let styleText = $(
+    @"font-size: %fpt; font-weight: %f",
+    preferredSymbolConfiguration.pointSize,
+    preferredSymbolConfiguration.weight
+  );
+  self.image.size = [JavaScriptCoreContext measureTextSize:self.image.content
+                                                 styleText:styleText];
+}
+
 /* MARK: - CoreAnimationLayerDelegate Implementation */
 - (void)displayLayer:(CoreAnimationLayer*)layer {
   [super displayLayer:layer];
@@ -50,17 +64,27 @@ C_ASSUME_NONNULL_BEGIN
   [JavaScriptCoreContext updateNode:layer.contents
                         textContent:self.image.content];
 
-  [JavaScriptCoreContext updateNode:layer.contents
-                         className:@"view sfSymbol"];
+  let configuration = (UIImageSymbolConfiguration*)self.image.configuration;
+  if (self.preferredSymbolConfiguration) {
+    configuration = self.preferredSymbolConfiguration;
+  }
 
-  if (self.image.configuration) {
-    let configuration = (UIImageSymbolConfiguration*)self.image.configuration;
+  if (
+    configuration &&
+    [configuration isKindOfClass:UIImageSymbolConfiguration.class]
+  ) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"font-size"
+                           styleValue:$(@"%fpt", configuration.pointSize)];
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"font-weight"
+                           styleValue:$(@"%d", configuration.weight)];
+  }
 
-    if ([configuration isKindOfClass:UIImageSymbolConfiguration.class]) {
-      [JavaScriptCoreContext updateNode:layer.contents
-                          styleProperty:@"font-size"
-                             styleValue:$(@"%fpt", configuration.pointSize)];
-    }
+  if (self.tintColor) {
+    [JavaScriptCoreContext updateNode:layer.contents
+                        styleProperty:@"color"
+                           styleValue:$(@"var(--%@)", self.tintColor.name)];
   }
 }
 

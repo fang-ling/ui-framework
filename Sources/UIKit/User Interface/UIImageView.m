@@ -39,6 +39,12 @@ C_ASSUME_NONNULL_BEGIN
   return imageView;
 }
 
+- (void)setTintColor:(nullable UIColor*)tintColor {
+  self->_tintColor = tintColor;
+
+  self.needsDisplay = yes;
+}
+
 @end
 
 C_ASSUME_NONNULL_END

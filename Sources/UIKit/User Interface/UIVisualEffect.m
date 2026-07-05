@@ -1,8 +1,8 @@
 /*
- *  ViewController.h
- *  ui-kit-examples
+ *  UIVisualEffect.m
+ *  ui-kit
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
  *  limitations under the License.
  */
 
-#import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
+#import "UIVisualEffect.h"
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface ViewController: UIViewController
+@implementation UIVisualEffect
 
 @end
 

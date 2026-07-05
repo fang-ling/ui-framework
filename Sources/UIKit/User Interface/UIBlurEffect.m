@@ -1,8 +1,8 @@
 /*
- *  main.m
- *  ui-kit-example
+ *  UIBlurEffect.m
+ *  ui-kit
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/6/20.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,15 +17,34 @@
  *  limitations under the License.
  */
 
-#import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
+#import "UIBlurEffect.h"
+
+#import "UIBlurEffect+Private.h"
 
 C_ASSUME_NONNULL_BEGIN
 
-int main() {
-  UIApplicationMain("UIKitExampleApplicationDelegate");
+@implementation UIBlurEffect
 
-  return 0;
++ (instancetype)makeEffectWithStyle:(UIBlurEffectStyle)style {
+  let effect = [[UIBlurEffect alloc] init];
+
+  switch (style) {
+    case kUIBlurEffectStyleSystemChromeMaterial: {
+      effect.background = @"background-material-system-chrome";
+      effect.backgroundBlendMode =
+        @"background-blend-mode-material-system-chrome";
+
+      break;
+    }
+  }
+
+  return effect;
 }
+
+- (instancetype)copy {
+  return self;
+}
+
+@end
 
 C_ASSUME_NONNULL_END
