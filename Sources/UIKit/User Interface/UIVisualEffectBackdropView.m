@@ -33,7 +33,7 @@ C_ASSUME_NONNULL_BEGIN
    * modes.
    */
   [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"backdrop-filter"
+                      styleProperty:@"-webkit-backdrop-filter"
                          styleValue:@"blur(25px)"];
 }
 
