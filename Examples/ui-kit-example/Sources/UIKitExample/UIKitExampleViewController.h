@@ -1,6 +1,6 @@
 /*
- *  ViewController.h
- *  ui-kit-examples
+ *  UIKitExampleViewController.h
+ *  ui-kit-example
  *
  *  Created by Fang Ling on 2026/5/17.
  *
@@ -18,11 +18,14 @@
  */
 
 #import <CKit/CKit.h>
+#import <FoundationKit/FoundationKit.h>
 #import <UIKit/UIKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface ViewController: UIViewController
+@interface UIKitExampleViewController: UIViewController
+
+- (instancetype)initWithText:(FoundationString*)text;
 
 @end
 

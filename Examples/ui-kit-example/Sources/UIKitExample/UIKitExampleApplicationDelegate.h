@@ -1,5 +1,5 @@
 /*
- *  main.m
+ *  UIKitExampleApplicationDelegate.h
  *  ui-kit-example
  *
  *  Created by Fang Ling on 2026/5/17.
@@ -22,10 +22,8 @@
 
 C_ASSUME_NONNULL_BEGIN
 
-int main() {
-  UIApplicationMain("UIKitExampleApplicationDelegate");
+@interface UIKitExampleApplicationDelegate: UIResponder <UIApplicationDelegate>
 
-  return 0;
-}
+@end
 
 C_ASSUME_NONNULL_END

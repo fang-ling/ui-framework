@@ -1,8 +1,8 @@
 /*
- *  AppDelegate.h
- *  ui-kit-examples
+ *  UIKitExample.h
+ *  ui-kit-example
  *
- *  Created by Fang Ling on 2026/5/17.
+ *  Created by Fang Ling on 2026/7/5.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,13 +17,7 @@
  *  limitations under the License.
  */
 
-#import <CKit/CKit.h>
-#import <UIKit/UIKit.h>
+#ifndef UIKitExample_h
+#define UIKitExample_h
 
-C_ASSUME_NONNULL_BEGIN
-
-@interface AppDelegate: UIResponder <UIApplicationDelegate>
-
-@end
-
-C_ASSUME_NONNULL_END
+#endif

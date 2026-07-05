@@ -92,7 +92,7 @@
 </head>
 
 <body>
-  <span style="visibility: hidden; display: absolute">
+  <span style="visibility: hidden; position: absolute">
     FONT_LOADING_PLACEHOLDER_DO_NOT_REMOVE
   </span>
 
@@ -104,12 +104,14 @@
       ConsoleStdout
     } from "/Resources/JavaScripts/WASIShims.js"
     import {
+      JavaScriptCoreGlobalObjectFetch,
       JavaScriptCoreInitialize,
       JavaScriptCoreWindowGetWidth,
       JavaScriptCoreWindowGetHeight,
       JavaScriptCoreMeasureTextSize,
       JavaScriptCoreNodeInitializeButtonNode,
       JavaScriptCoreNodeInitializeDivisionNode,
+      JavaScriptCoreNodeInitializeImageNode,
       JavaScriptCoreNodeInitializeParagraphNode,
       JavaScriptCoreNodeInitializeSpanNode,
       JavaScriptCoreNodeAddClickEventListener,
@@ -117,6 +119,7 @@
       JavaScriptCoreNodeInsertSubnodeAtIndex,
       JavaScriptCoreNodeRemoveFromSupernode,
       JavaScriptCoreNodeUpdateClassName,
+      JavaScriptCoreNodeUpdateSourceContent,
       JavaScriptCoreNodeUpdateStyleProperty,
       JavaScriptCoreNodeUpdateTextContent
     } from "/Resources/JavaScripts/JavaScriptCoreKit.js"
@@ -143,11 +146,13 @@
         env: {
           memory,
           swift_addNewDSOImage: () => {},
+          JavaScriptCoreGlobalObjectFetch,
           JavaScriptCoreWindowGetWidth,
           JavaScriptCoreWindowGetHeight,
           JavaScriptCoreMeasureTextSize,
           JavaScriptCoreNodeInitializeButtonNode,
           JavaScriptCoreNodeInitializeDivisionNode,
+          JavaScriptCoreNodeInitializeImageNode,
           JavaScriptCoreNodeInitializeParagraphNode,
           JavaScriptCoreNodeInitializeSpanNode,
           JavaScriptCoreNodeAddClickEventListener,
@@ -155,6 +160,7 @@
           JavaScriptCoreNodeInsertSubnodeAtIndex,
           JavaScriptCoreNodeRemoveFromSupernode,
           JavaScriptCoreNodeUpdateClassName,
+          JavaScriptCoreNodeUpdateSourceContent,
           JavaScriptCoreNodeUpdateStyleProperty,
           JavaScriptCoreNodeUpdateTextContent
         }
