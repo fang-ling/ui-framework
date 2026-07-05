@@ -20,15 +20,18 @@
 #import "UIButton.h"
 
 #import "UIImageView.h"
-#import "../Text/UILabel.h"
+#import "../Graphics/UIImage+Private.h"
+#import "../Graphics/UIImageSymbolConfiguration.h"
+#import "../Text/UIFont+Private.h"
 
 #import <CoreAnimationKit/CoreAnimationKit.h>
+#import <JavaScriptCoreKit/JavaScriptCoreKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-@interface UIButton()
+@interface UIButton ()
 
-@property (nullable, nonatomic) UILabel* titleLabel;
+@property (nullable, nonatomic, readwrite) UILabel* titleLabel;
 
 @property (nullable, nonatomic) UIImageView* imageView;
 
@@ -70,6 +73,7 @@ C_ASSUME_NONNULL_BEGIN
     }
 
     self.titleLabel.text = configuration.title;
+    self.titleLabel.textColor = configuration.baseForegroundColor;
   } else if (self.titleLabel) {
     [self.titleLabel removeFromSuperview];
 
@@ -79,19 +83,34 @@ C_ASSUME_NONNULL_BEGIN
   if (configuration.image) {
     if (!self.imageView) {
       self.imageView = [UIImageView makeImageViewWithImage:configuration.image];
+      let weight = kUIImageSymbolWeightMedium;
+      self.imageView.preferredSymbolConfiguration =
+        [UIImageSymbolConfiguration makeConfigurationWithPointSize:17
+                                                            weight:weight];
 
       [self addSubview:self.imageView];
     }
 
     self.imageView.image = configuration.image;
+    self.imageView.tintColor = configuration.baseForegroundColor;
   } else if (self.imageView) {
     [self.imageView removeFromSuperview];
 
     self.imageView = nil;
   }
 
-  self.needsLayout = YES;
-  self.needsDisplay = YES;
+  self.needsLayout = yes;
+  self.needsDisplay = yes;
+}
+
+- (void)setNeedsUpdateConfiguration {
+  [self updateConfiguration];
+}
+
+- (void)updateConfiguration {
+  if (self.configurationUpdateHandler) {
+    self.configurationUpdateHandler(self);
+  }
 }
 
 - (void)layoutSubviews {
@@ -102,6 +121,17 @@ C_ASSUME_NONNULL_BEGIN
 
   let width = self.bounds.size.width;
   let height = self.bounds.size.height;
+
+  let styleText = $(
+    @"font-size: %fpx; font-weight: %f; line-height: %fpx",
+    self.titleLabel.font.pixelSize,
+    self.titleLabel.font.weight,
+    self.titleLabel.font.lineHeight
+  );
+  let titleSize = self.titleLabel
+    ? [JavaScriptCoreContext measureTextSize:self.titleLabel.text
+                                   styleText:styleText]
+    : CoreFoundationSizeMake(0, 0);
 
   switch (imagePlacement) {
     case kUIDirectionalRectangleEdgeTrailing: {
@@ -147,28 +177,28 @@ C_ASSUME_NONNULL_BEGIN
                          self.imageView.image.scale;
         let imageHeight = self.imageView.image.size.height *
                           self.imageView.image.scale;
+        let paddingY = height - imageHeight - imagePadding - titleSize.height;
         self.imageView.frame = CoreFoundationRectangleMake(
           (width - imageWidth) / 2,
-          0,
+          paddingY / 2,
           imageWidth,
           imageHeight
         );
 
         if (self.titleLabel) {
-          let titleY = imageHeight + imagePadding;
           self.titleLabel.frame = CoreFoundationRectangleMake(
-            0,
-            titleY,
-            width,
-            height - titleY
+            (width - titleSize.width) / 2,
+            paddingY / 2 + imageHeight + imagePadding,
+            titleSize.width,
+            titleSize.height
           );
         }
       } else if (self.titleLabel) {
         self.titleLabel.frame = CoreFoundationRectangleMake(
           0,
           0,
-          width,
-          height
+          titleSize.width,
+          titleSize.height
         );
       }
 
