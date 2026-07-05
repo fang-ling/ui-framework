@@ -1,5 +1,5 @@
 /*
- *  UIViewController.h
+ *  UIViewController.m
  *  ui-kit
  *
  *  Created by Fang Ling on 2026/3/22.
@@ -21,11 +21,16 @@
 
 #import "UIScreen.h"
 
+#import <FoundationKit/FoundationKit.h>
+
 C_ASSUME_NONNULL_BEGIN
 
-@interface UIViewController() {
+@interface UIViewController () {
   UIView* _view;
+  FoundationMutableArray* _childViewControllers;
 }
+
+@property (nonatomic, weak, readwrite) UIViewController* parentViewController;
 
 @end
 
@@ -57,6 +62,38 @@ C_ASSUME_NONNULL_BEGIN
 }
 
 - (void)viewDidLoad { }
+
+- (FoundationArray<UIViewController*>*)childViewControllers {
+  if (self->_childViewControllers == nil) {
+    self->_childViewControllers = [FoundationMutableArray makeArray];
+  }
+
+  /* TODO: copy */
+  return self->_childViewControllers;
+}
+
+- (void)addChildViewController:(UIViewController*)childController {
+  if (childController.parentViewController) {
+    [childController removeFromParentViewController];
+  }
+
+  if (self->_childViewControllers == nil) {
+    self->_childViewControllers = [FoundationMutableArray makeArray];
+  }
+
+  [self->_childViewControllers appendObject:childController];
+  childController.parentViewController = self;
+}
+
+- (void)removeFromParentViewController {
+  if (self.parentViewController) {
+    [self.parentViewController->_childViewControllers
+     removeAllObjectsWhere:^CBoolean(ObjectiveCAnyObject object) {
+      return [object isEqual:self];
+    }];
+    self.parentViewController = nil;
+  }
+}
 
 @end
 

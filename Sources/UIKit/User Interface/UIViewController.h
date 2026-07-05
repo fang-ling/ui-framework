@@ -17,12 +17,11 @@
  *  limitations under the License.
  */
 
-#import <CKit/CKit.h>
-#import <ObjectiveCKit/ObjectiveCKit.h>
-
+#import "UIView.h"
 #import "../User Interactions/UIResponder.h"
 
-#import "UIView.h"
+#import <CKit/CKit.h>
+#import <ObjectiveCKit/ObjectiveCKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
@@ -172,7 +171,7 @@ C_ASSUME_NONNULL_BEGIN
  *   - ``willMove(toParent:)``
  *   - ``didMove(toParent:)``
  */
-@interface UIViewController: UIResponder
+@interface UIViewController: UIResponder <ObjectiveCEquatable>
 
 /**
  * The view that the controller manages.
@@ -236,6 +235,45 @@ C_ASSUME_NONNULL_BEGIN
  * additional initialization on views.
  */
 - (void)viewDidLoad;
+
+/**
+ * The parent view controller, or `nil` if it has none.
+ */
+@property (nonatomic, weak, readonly) UIViewController* parentViewController;
+
+/**
+ * An array of the view controllers that are children of the receiver.
+ */
+@property (nonatomic, readonly)
+  FoundationArray<UIViewController*>* childViewControllers;
+
+/**
+ * Adds the specified view controller as a child of the current view
+ * controller.
+ *
+ * This method creates a parent-child relationship between the current view
+ * controller and the object in the `childController` parameter. This
+ * relationship is necessary when embedding the child view controller's view
+ * into the current view controller's content. If the new child view
+ * controller is already the child of a container view controller, it is
+ * removed from that container before being added.
+ *
+ * This method is only intended to be called by an implementation of a custom
+ * container view controller. If you override this method, you must call super
+ * in your implementation.
+ *
+ * - Parameter childController: The view controller to be added as a child.
+ */
+- (void)addChildViewController:(UIViewController*)childController;
+
+/**
+ * Removes the view controller from its parent.
+ *
+ * This method is only intended to be called by an implementation of a custom
+ * container view controller. If you override this method, you must call super
+ * in your implementation.
+ */
+- (void)removeFromParentViewController;
 
 @end
 
