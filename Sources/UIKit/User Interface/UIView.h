@@ -26,12 +26,40 @@
 C_ASSUME_NONNULL_BEGIN
 
 /**
+ * Options to specify how a view adjusts its content when its size changes.
+ */
+typedef enum UIViewContentMode {
+  /**
+   * The option to scale the content to fit the size of itself by changing the
+   * aspect ratio of the content if necessary.
+   */
+  kUIViewContentModeScaleToFill,
+
+  /**
+   * The option to scale the content to fit the size of the view by maintaining
+   * the aspect ratio. Any remaining area of the view's bounds is transparent.
+   */
+  kUIViewContentModeScaleAspectFit,
+
+  /**
+   * The option to scale the content to fill the size of the view. Some portion
+   * of the content may be clipped to fill the view's bounds.
+   */
+  kUIViewContentModeScaleAspectFill
+} UIViewContentMode;
+
+/**
  * ## Topics
  *
  * ### Configuring a view's visual appearance
  *
  * - ``backgroundColor``
  * - ``isHidden``
+ *
+ * ### Configuring the resizing behavior
+ *
+ * - ``contentMode``
+ * - ``UIViewContentMode``
  */
 @interface UIView: UIResponder <CoreAnimationLayerDelegate>
 
@@ -204,6 +232,23 @@ C_ASSUME_NONNULL_BEGIN
  * future system update.
  */
 @property (nonatomic, readonly) FoundationMutableArray<UIView*>* subviews;
+
+/**
+ * A flag used to determine how a view lays out its content when its bounds
+ * change.
+ *
+ * The content mode specifies how the cached bitmap of the view's layer is
+ * adjusted when the view's bounds change. This property is often used to
+ * implement resizable controls. Instead of redrawing the contents of the view
+ * every time, you can use this property to specify that you want to scale the
+ * contents (either with or without distortion) or pin them to a particular spot
+ * on the view.
+ *
+ * For a list of values you can assign to this property, see
+ * ``UIViewContentMode``. The default value of this property is
+ * ``kUIViewContentModeScaleToFill``.
+ */
+@property (nonatomic) UIViewContentMode contentMode;
 
 /**
  * Creates a view with the specified frame rectangle.

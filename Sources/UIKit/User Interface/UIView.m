@@ -49,6 +49,8 @@ C_ASSUME_NONNULL_BEGIN
   self.layer = [[self.class.layerClass alloc] init];
   self.layer.delegate = self;
 
+  self.contentMode = kUIViewContentModeScaleToFill;
+
   self.frame = frame;
   self.subviews = [FoundationMutableArray makeArray];
 
@@ -173,6 +175,17 @@ C_ASSUME_NONNULL_BEGIN
     let backgroundColorName = ((UIColor*)layer.backgroundColor).name;
     [layer.contents setStyleValue:$(@"var(--%@)", backgroundColorName)
                       forProperty:@"background"];
+  }
+
+  if (self.contentMode != kUIViewContentModeScaleToFill) {
+    let contentMode = (FoundationString*)nil;
+    switch (self.contentMode) {
+      case kUIViewContentModeScaleToFill: contentMode = @"fill"; break;
+      case kUIViewContentModeScaleAspectFit: contentMode = @"contain"; break;
+      case kUIViewContentModeScaleAspectFill: contentMode = @"cover"; break;
+    }
+
+    [layer.contents setStyleValue:contentMode forProperty:@"object-fit"];
   }
 
   /* Apply the frame. */
