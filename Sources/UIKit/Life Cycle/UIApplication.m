@@ -34,12 +34,8 @@ static UIControl* UIApplicationFindControlWithTarget(
     }
   }
 
-  /* TODO: Use fast enumeration. */
-  for (let i = 0; i < view.subviews.count; i += 1) {
-    let found = UIApplicationFindControlWithTarget(
-      [view.subviews objectAtIndex:i],
-      target
-    );
+  for (UIView* subview in view.subviews) {
+    let found = UIApplicationFindControlWithTarget(subview, target);
     if (found) {
       return found;
     }
@@ -81,7 +77,7 @@ void UIKitDispatchControlEvent(
 
 - (UIWindow*)keyWindow {
   if (self.windows.count > 0) {
-    return [self.windows objectAtIndex:self.windows.count - 1];
+    return self.windows[self.windows.count - 1];
   }
 
   return nil;
@@ -89,9 +85,7 @@ void UIKitDispatchControlEvent(
 
 - (void)sendEventToTarget:(CUnsignedInteger32)target
          forControlEvents:(UIControlEvents)controlEvents {
-  /* TODO: Use fast enumeration. */
-  for (let i = 0; i < self.windows.count; i += 1) {
-    let window = (UIWindow*)[self.windows objectAtIndex:i];
+  for (UIWindow* window in self.windows) {
     let control = UIApplicationFindControlWithTarget(window, target);
     if (control) {
       [control sendActionsForControlEvents:controlEvents];

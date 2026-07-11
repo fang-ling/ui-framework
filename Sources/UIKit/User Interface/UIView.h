@@ -203,7 +203,7 @@ C_ASSUME_NONNULL_BEGIN
  * these types of system-supplied views. If you do, your code may break during a
  * future system update.
  */
-@property (nonatomic, readonly) FoundationMutableArray* subviews;
+@property (nonatomic, readonly) FoundationMutableArray<UIView*>* subviews;
 
 /**
  * Creates a view with the specified frame rectangle.

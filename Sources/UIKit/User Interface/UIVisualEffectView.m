@@ -69,13 +69,12 @@ C_ASSUME_NONNULL_BEGIN
   [super layoutSubviews];
 
   if (self.subviews.count > 0) {
-    ((UIView*)[self.subviews objectAtIndex:0]).frame =
-      CoreFoundationRectangleMake(
-        0,
-        0,
-        self.bounds.size.width,
-        self.bounds.size.height
-      );
+    self.subviews[0].frame = CoreFoundationRectangleMake(
+      0,
+      0,
+      self.bounds.size.width,
+      self.bounds.size.height
+    );
   }
 }
 

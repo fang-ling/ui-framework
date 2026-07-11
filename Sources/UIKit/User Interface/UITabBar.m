@@ -31,18 +31,16 @@ C_ASSUME_NONNULL_BEGIN
   self->_items = items;
 
   for (let i = self.subviews.count - 1; i >= 0; i -= 1) {
-    let subview = (UIView*)[self.subviews objectAtIndex:i];
+    let subview = (UIView*)self.subviews[i];
     if ([subview isKindOfClass:UIButton.class]) {
       [subview removeFromSuperview];
     }
   }
 
   for (let i = 0; i < items.count; i += 1) {
-    let tab = [items objectAtIndex:i];
-
     let configuration = [UIButtonConfiguration makePlainButtonConfiguration];
-    configuration.title = tab.title;
-    configuration.image = tab.image;
+    configuration.title = items[i].title;
+    configuration.image = items[i].image;
     configuration.imagePlacement = kUIDirectionalRectangleEdgeTop;
     configuration.imagePadding = 4;
 
@@ -50,8 +48,8 @@ C_ASSUME_NONNULL_BEGIN
     let action = [UIAction makeActionWithHandler:^(UIAction* action) {
       @strongify(self)
 
-      [self setSelectedItem:tab];
-      [self.delegate tabBar:self didSelectItem:tab];
+      [self setSelectedItem:items[i]];
+      [self.delegate tabBar:self didSelectItem:items[i]];
     }];
 
     let button = [UIButton makeButtonWithConfiguration:configuration
@@ -82,13 +80,13 @@ C_ASSUME_NONNULL_BEGIN
   if (selectedItem) {
     let selectedIndex = 0;
     for (; selectedIndex < self.items.count; selectedIndex += 1) {
-      if ([self.items objectAtIndex:selectedIndex] == selectedItem) {
+      if (self.items[selectedIndex] == selectedItem) {
         break;
       }
     }
 
-    for (let i = 0, buttonIndex = 0; i < self.subviews.count; i += 1) {
-      let subview = (UIView*)[self.subviews objectAtIndex:i];
+    let buttonIndex = 0;
+    for (UIView* subview in self.subviews) {
       if ([subview isKindOfClass:UIButton.class]) {
         let button = (UIButton*)subview;
 
