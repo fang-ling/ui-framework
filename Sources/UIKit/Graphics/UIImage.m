@@ -28,6 +28,16 @@ C_ASSUME_NONNULL_BEGIN
 
 @implementation UIImage
 
++ (instancetype)makeImageWithURL:(FoundationString*)url {
+  let image = [[UIImage alloc] init];
+
+  image.type = kUIImageTypeAsynchronousImage;
+  image.content = url;
+  image.scale = 1.0;
+
+  return image;
+}
+
 + (instancetype)makeImageWithSystemName:(FoundationString*)systemName {
   return [self makeImageWithSystemName:systemName configuration:nil];
 }

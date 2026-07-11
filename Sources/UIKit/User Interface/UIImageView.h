@@ -42,6 +42,10 @@ C_ASSUME_NONNULL_BEGIN
  *
  * - ``makeImageViewWithImage:``
  *
+ * ### Accessing the displayed images
+ *
+ * - ``image``
+ *
  * ### Configuring the image view
  *
  * - ``tintColor``
