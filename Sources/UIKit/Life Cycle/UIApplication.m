@@ -27,11 +27,11 @@ static UIControl* UIApplicationFindControlWithTarget(
   UIView* view,
   CUnsignedInteger32 target
 ) {
-  if ([view isKindOfClass:UIControl.class]) {
-    let control = (UIControl*)view;
-    if (control.layer.contents == target) {
-      return control;
-    }
+  if (
+    [view isKindOfClass:UIControl.class] &&
+    view.layer.contents.id == target
+  ) {
+    return (UIControl*)view;
   }
 
   for (UIView* subview in view.subviews) {
@@ -48,13 +48,9 @@ void UIKitDispatchControlEvent(
   CUnsignedInteger32 target,
   CUnsignedInteger32 eventType
 ) {
-  [[UIApplication sharedApplication] sendEventToTarget:target
-                                      forControlEvents:eventType];
+  [UIApplication.sharedApplication sendEventToTarget:target
+                                    forControlEvents:eventType];
 
-  /*
-   * TODO: Async jobs that mutate UI state after the event returns must trigger
-   * their own flush to render the deferred updates.
-   */
   let layer = [UIApplication sharedApplication].keyWindow.layer;
   [CoreAnimationTransaction flushWithLayer:layer];
 }

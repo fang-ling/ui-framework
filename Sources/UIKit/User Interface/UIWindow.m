@@ -56,7 +56,7 @@ C_ASSUME_NONNULL_BEGIN
 
   self.isHidden = no;
 
-  [JavaScriptCoreContext addSubnode:self.layer.contents forNode:0];
+  [JavaScriptCoreNode.documentNode addSubnode:self.layer.contents];
 }
 
 @end

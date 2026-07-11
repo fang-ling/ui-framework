@@ -72,37 +72,26 @@ C_ASSUME_NONNULL_BEGIN
   [super displayLayer:layer];
 
   /* Texts are vertically centered by default. */
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"display"
-                         styleValue:@"flex"];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"align-items"
-                         styleValue:@"center"];
+  [layer.contents setStyleValue:@"flex" forProperty:@"display"];
+  [layer.contents setStyleValue:@"center" forProperty:@"align-items"];
 
   /* Do not draw text outside the frame. */
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"overflow"
-                         styleValue:@"hidden"];
+  [layer.contents setStyleValue:@"hidden" forProperty:@"overflow"];
 
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"font-size"
-                         styleValue:$(@"%fpx", self.font.pixelSize)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"font-weight"
-                         styleValue:$(@"%f", self.font.weight)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"line-height"
-                         styleValue:$(@"%fpx", self.font.lineHeight)];
+  [layer.contents setStyleValue:$(@"%fpx", self.font.pixelSize)
+                    forProperty:@"font-size"];
+  [layer.contents setStyleValue:$(@"%f", self.font.weight)
+                    forProperty:@"font-weight"];
+  [layer.contents setStyleValue:$(@"%fpx", self.font.lineHeight)
+                    forProperty:@"line-height"];
 
   if (self.text) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                          textContent:self.text];
+    [layer.contents setTextContent:self.text];
   }
 
   if (self.textColor) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"color"
-                           styleValue:$(@"var(--%@)", self.textColor.name)];
+    [layer.contents setStyleValue:$(@"var(--%@)", self.textColor.name)
+                      forProperty:@"color"];
   }
 }
 

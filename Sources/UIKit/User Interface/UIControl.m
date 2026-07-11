@@ -63,7 +63,7 @@ C_ASSUME_NONNULL_BEGIN
   [self.actions appendObject:action];
 
   if (controlEvents & kUIControlEventPrimaryActionTriggered) {
-    [JavaScriptCoreContext addClickEventListenerForNode:self.layer.contents];
+    [self.layer.contents addClickEventListener];
   }
 }
 

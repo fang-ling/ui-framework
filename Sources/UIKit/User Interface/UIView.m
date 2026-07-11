@@ -157,48 +157,33 @@ C_ASSUME_NONNULL_BEGIN
 
 - (void)displayLayer:(CoreAnimationLayer*)layer {
   /* TODO: Move the update for the layer property to CoreAnimationLayer. */
-  if (self.isHidden) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"visibility"
-                           styleValue:@"hidden"];
-  } else {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"visibility"
-                           styleValue:@"visible"];
-  }
+  [layer.contents setStyleValue:self.isHidden ? @"hidden" : @"visible"
+                    forProperty:@"visibility"];
 
   if (layer.cornerRadius > 0) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"border-radius"
-                           styleValue:$(@"%fpx", layer.cornerRadius)];
+    [layer.contents setStyleValue:$(@"%fpx", layer.cornerRadius)
+                      forProperty:@"border-radius"];
   }
 
   if (layer.masksToBounds) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"overflow"
-                           styleValue:@"hidden"];
+    [layer.contents setStyleValue:@"hidden" forProperty:@"overflow"];
   }
 
   if (layer.backgroundColor) {
     let backgroundColorName = ((UIColor*)layer.backgroundColor).name;
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"background"
-                           styleValue:$(@"var(--%@)", backgroundColorName)];
+    [layer.contents setStyleValue:$(@"var(--%@)", backgroundColorName)
+                      forProperty:@"background"];
   }
 
   /* Apply the frame. */
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"left"
-                         styleValue:$(@"%fpx", self.frame.origin.x)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"top"
-                         styleValue:$(@"%fpx", self.frame.origin.y)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"width"
-                         styleValue:$(@"%fpx", self.frame.size.width)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"height"
-                         styleValue:$(@"%fpx", self.frame.size.height)];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.origin.x)
+                    forProperty:@"left"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.origin.y)
+                    forProperty:@"top"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.size.width)
+                    forProperty:@"width"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.size.height)
+                    forProperty:@"height"];
 }
 
 - (void)layoutSublayersOfLayer:(CoreAnimationLayer*)layer {

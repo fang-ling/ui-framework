@@ -67,8 +67,7 @@ C_ASSUME_NONNULL_BEGIN
   [super displayLayer:layer];
 
   if (self.image && self.image.type == kUIImageTypeAsynchronousImage) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        sourceContent:self.image.content];
+    [layer.contents setSourceContent:self.image.content];
   }
 }
 
