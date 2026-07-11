@@ -37,6 +37,7 @@
 #import "../../User Interface/UIGeometry.h"
 #import "../../User Interface/UIImageView.h"
 #import "../../User Interface/UIScreen.h"
+#import "../../User Interface/UIScrollView.h"
 #import "../../User Interface/UITab.h"
 #import "../../User Interface/UITabBarController.h"
 #import "../../User Interface/UIViewController.h"
