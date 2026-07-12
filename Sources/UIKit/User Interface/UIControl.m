@@ -52,8 +52,7 @@ C_ASSUME_NONNULL_BEGIN
 - (void)addAction:(UIAction*)action
  forControlEvents:(UIControlEvents)controlEvents {
   /* Replace existing action with the same identifier. */
-  for (let i = 0; i < self.actions.count; i += 1) {
-    let existingAction = (UIAction*)[self.actions objectAtIndex:i];
+  for (UIAction* existingAction in self.actions) {
     if ([existingAction.identifier isEqual:action.identifier]) {
       /* [self.actions replaceObjectAtIndex:i withObject:action]; */
 
@@ -64,14 +63,14 @@ C_ASSUME_NONNULL_BEGIN
   [self.actions appendObject:action];
 
   if (controlEvents & kUIControlEventPrimaryActionTriggered) {
-    [JavaScriptCoreContext addClickEventListenerForNode:self.layer.contents];
+    [self.layer.contents addClickEventListener];
   }
 }
 
 - (void)sendActionsForControlEvents:(UIControlEvents)controlEvents {
   /* TODO: Filter actions by controlEvents. */
-  for (let i = 0; i < self.actions.count; i += 1) {
-    [self sendAction:[self.actions objectAtIndex:i]];
+  for (UIAction* action in self.actions) {
+    [self sendAction:action];
   }
 }
 

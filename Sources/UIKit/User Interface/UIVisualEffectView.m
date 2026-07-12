@@ -55,13 +55,10 @@ C_ASSUME_NONNULL_BEGIN
   if ([self.effect isKindOfClass:UIBlurEffect.class]) {
     let effect = (UIBlurEffect*)self.effect;
 
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"background"
-                           styleValue:$(@"var(--%@)", effect.background)];
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"background-blend-mode"
-                           styleValue:$(@"var(--%@)",
-                                        effect.backgroundBlendMode)];
+    [layer.contents setStyleValue:$(@"var(--%@)", effect.background)
+                      forProperty:@"background"];
+    [layer.contents setStyleValue:$(@"var(--%@)", effect.backgroundBlendMode)
+                      forProperty:@"background-blend-mode"];
   }
 }
 
@@ -69,13 +66,12 @@ C_ASSUME_NONNULL_BEGIN
   [super layoutSubviews];
 
   if (self.subviews.count > 0) {
-    ((UIView*)[self.subviews objectAtIndex:0]).frame =
-      CoreFoundationRectangleMake(
-        0,
-        0,
-        self.bounds.size.width,
-        self.bounds.size.height
-      );
+    self.subviews[0].frame = CoreFoundationRectangleMake(
+      0,
+      0,
+      self.bounds.size.width,
+      self.bounds.size.height
+    );
   }
 }
 

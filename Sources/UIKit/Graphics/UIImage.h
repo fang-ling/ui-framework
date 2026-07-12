@@ -64,9 +64,7 @@ C_ASSUME_NONNULL_BEGIN
  *     this method caches the image data automatically, it's especially
  *     recommended for images that you use frequently.
  *   - Use the ``makeImageWithURL:`` method to create an image object where
- *     the initial data isn't in a bundle. This method loads the image data
- *     over the network each time, so don't use them to load the same image
- *     repeatedly.
+ *     the initial data isn't in a bundle.
  *   - Use the ``makeImageWithSystemName:`` method to creates an image object
  *     that contains a system symbol image.
  *
@@ -139,6 +137,17 @@ C_ASSUME_NONNULL_BEGIN
  * the ``scale`` property to get the pixel dimensions of the image.
  */
 @property (nonatomic, readonly) CoreFoundationSize size;
+
+/**
+ * Creates and returns an image object by loading the image data over the
+ * network at the specified url.
+ *
+ * - Parameter url: The full or partial url to the resource.
+ *
+ * - Returns: A new image object for the specified url, or `nil` if the method
+ *   could not initialize the image from the specified url.
+ */
++ (instancetype)makeImageWithURL:(FoundationString*)url;
 
 /**
  * Creates an image object that contains a system symbol image.

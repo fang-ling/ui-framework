@@ -85,7 +85,7 @@ C_ASSUME_NONNULL_BEGIN
  *     when someone selects the tab.
  */
 - (instancetype)initWithTitle:(FoundationString*)title
-                        image:(UIImage *)image
+                        image:(UIImage*)image
                    identifier:(FoundationString*)identifier
        viewControllerProvider:(UIViewController* (^)(UITab*))
                                 viewControllerProvider;

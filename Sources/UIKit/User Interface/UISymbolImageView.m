@@ -61,8 +61,7 @@ C_ASSUME_NONNULL_BEGIN
 - (void)displayLayer:(CoreAnimationLayer*)layer {
   [super displayLayer:layer];
 
-  [JavaScriptCoreContext updateNode:layer.contents
-                        textContent:self.image.content];
+  [layer.contents setTextContent:self.image.content];
 
   let configuration = (UIImageSymbolConfiguration*)self.image.configuration;
   if (self.preferredSymbolConfiguration) {
@@ -73,18 +72,15 @@ C_ASSUME_NONNULL_BEGIN
     configuration &&
     [configuration isKindOfClass:UIImageSymbolConfiguration.class]
   ) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"font-size"
-                           styleValue:$(@"%fpt", configuration.pointSize)];
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"font-weight"
-                           styleValue:$(@"%d", configuration.weight)];
+    [layer.contents setStyleValue:$(@"%fpt", configuration.pointSize)
+                      forProperty:@"font-size"];
+    [layer.contents setStyleValue:$(@"%d", configuration.weight)
+                      forProperty:@"font-weight"];
   }
 
   if (self.tintColor) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"color"
-                           styleValue:$(@"var(--%@)", self.tintColor.name)];
+    [layer.contents setStyleValue:$(@"var(--%@)", self.tintColor.name)
+                      forProperty:@"color"];
   }
 }
 

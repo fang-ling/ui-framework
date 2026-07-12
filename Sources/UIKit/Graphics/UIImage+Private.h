@@ -39,7 +39,7 @@ typedef enum UIImageType {
   kUIImageTypeAsynchronousImage
 } UIImageType;
 
-@interface UIImage()
+@interface UIImage ()
 
 @property (nonatomic) UIImageType type;
 

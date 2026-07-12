@@ -32,9 +32,8 @@ C_ASSUME_NONNULL_BEGIN
    * Used for chrome, thick, regular, thin and ultraThin in both light and dark
    * modes.
    */
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"-webkit-backdrop-filter"
-                         styleValue:@"blur(25px)"];
+  [layer.contents setStyleValue:@"blur(25px)"
+                    forProperty:@"-webkit-backdrop-filter"];
 }
 
 @end

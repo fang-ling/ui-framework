@@ -90,7 +90,7 @@ C_ASSUME_NONNULL_BEGIN
   [self setupContentView];
 
   if (self.tabs.count > 0) {
-    self.selectedTab = [self.tabs objectAtIndex:0];
+    self.selectedTab = self.tabs[0];
   }
 }
 

@@ -49,6 +49,8 @@ C_ASSUME_NONNULL_BEGIN
   self.layer = [[self.class.layerClass alloc] init];
   self.layer.delegate = self;
 
+  self.contentMode = kUIViewContentModeScaleToFill;
+
   self.frame = frame;
   self.subviews = [FoundationMutableArray makeArray];
 
@@ -157,48 +159,44 @@ C_ASSUME_NONNULL_BEGIN
 
 - (void)displayLayer:(CoreAnimationLayer*)layer {
   /* TODO: Move the update for the layer property to CoreAnimationLayer. */
-  if (self.isHidden) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"visibility"
-                           styleValue:@"hidden"];
-  } else {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"visibility"
-                           styleValue:@"visible"];
-  }
+  [layer.contents setStyleValue:self.isHidden ? @"hidden" : @"visible"
+                    forProperty:@"visibility"];
 
   if (layer.cornerRadius > 0) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"border-radius"
-                           styleValue:$(@"%fpx", layer.cornerRadius)];
+    [layer.contents setStyleValue:$(@"%fpx", layer.cornerRadius)
+                      forProperty:@"border-radius"];
   }
 
   if (layer.masksToBounds) {
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"overflow"
-                           styleValue:@"hidden"];
+    [layer.contents setStyleValue:@"hidden" forProperty:@"overflow"];
   }
 
   if (layer.backgroundColor) {
     let backgroundColorName = ((UIColor*)layer.backgroundColor).name;
-    [JavaScriptCoreContext updateNode:layer.contents
-                        styleProperty:@"background"
-                           styleValue:$(@"var(--%@)", backgroundColorName)];
+    [layer.contents setStyleValue:$(@"var(--%@)", backgroundColorName)
+                      forProperty:@"background"];
+  }
+
+  if (self.contentMode != kUIViewContentModeScaleToFill) {
+    let contentMode = (FoundationString*)nil;
+    switch (self.contentMode) {
+      case kUIViewContentModeScaleToFill: contentMode = @"fill"; break;
+      case kUIViewContentModeScaleAspectFit: contentMode = @"contain"; break;
+      case kUIViewContentModeScaleAspectFill: contentMode = @"cover"; break;
+    }
+
+    [layer.contents setStyleValue:contentMode forProperty:@"object-fit"];
   }
 
   /* Apply the frame. */
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"left"
-                         styleValue:$(@"%fpx", self.frame.origin.x)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"top"
-                         styleValue:$(@"%fpx", self.frame.origin.y)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"width"
-                         styleValue:$(@"%fpx", self.frame.size.width)];
-  [JavaScriptCoreContext updateNode:layer.contents
-                      styleProperty:@"height"
-                         styleValue:$(@"%fpx", self.frame.size.height)];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.origin.x)
+                    forProperty:@"left"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.origin.y)
+                    forProperty:@"top"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.size.width)
+                    forProperty:@"width"];
+  [layer.contents setStyleValue:$(@"%fpx", self.frame.size.height)
+                    forProperty:@"height"];
 }
 
 - (void)layoutSublayersOfLayer:(CoreAnimationLayer*)layer {
