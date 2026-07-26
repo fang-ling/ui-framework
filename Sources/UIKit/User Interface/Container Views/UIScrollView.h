@@ -17,10 +17,12 @@
  *  limitations under the License.
  */
 
-#import "UIView.h"
+#import "UIScrollViewDelegate.h"
+#import "../UIView.h"
 
 #import <CKit/CKit.h>
 #import <CoreFoundationKit/CoreFoundationKit.h>
+#import <ObjectiveCKit/ObjectiveCKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
@@ -60,11 +62,24 @@ C_ASSUME_NONNULL_BEGIN
  *
  * ## Topics
  *
+ * ### Responding to scroll view interactions
+ *
+ * - ``delegate``
+ * - ``UIScrollViewDelegate``
+ *
  * ### Managing the content size and offset
  *
  * - ``contentSize``
  */
 @interface UIScrollView: UIView
+
+/**
+ * The delegate of the scroll view.
+ *
+ * The delegate must adopt the ``UIScrollViewDelegate`` protocol.
+ * The ``UIScrollView`` class, which doesn't retain the delegate, invokes each protocol method the delegate implements.
+ */
+@property (nullable, nonatomic, weak) ObjectiveCAnyObject<UIScrollViewDelegate> delegate;
 
 /**
  * The size of the content view.
