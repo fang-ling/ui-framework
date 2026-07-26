@@ -58,6 +58,7 @@ C_ASSUME_NONNULL_BEGIN
  * ### Managing the content size and offset
  *
  * - ``contentSize``
+ * - ``contentOffset``
  */
 @interface UIScrollView: UIView
 
@@ -75,6 +76,13 @@ C_ASSUME_NONNULL_BEGIN
  * The unit of size is pixels. The default size is ``CoreFoundationSizeZero``.
  */
 @property (nonatomic) CoreFoundationSize contentSize;
+
+/**
+ * The point at which the origin of the content view is offset from the origin of the scroll view.
+ *
+ * The default value is ``CoreFoundationPointZero``.
+ */
+@property (nonatomic) CoreFoundationPoint contentOffset;
 
 @end
 

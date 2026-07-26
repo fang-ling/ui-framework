@@ -37,9 +37,16 @@ C_ASSUME_NONNULL_BEGIN
   self.contentView = [[UIView alloc] initWithFrame:CoreFoundationRectangleMake(0, 0, 0, 0)];
   [super addSubview:self.contentView];
 
-  self.contentSize = CoreFoundationSizeMake(0, 0);
+  self.contentSize = CoreFoundationSizeZero;
+  self.contentOffset = CoreFoundationPointZero;
+
+  [self.layer.contents addEventListenerWithType:kJavaScriptCoreNodeEventTypeScroll];
 
   return self;
+}
+
+- (void)dealloc {
+  [self.layer.contents removeEventListenerWithType:kJavaScriptCoreNodeEventTypeScroll];
 }
 
 - (void)setContentSize:(CoreFoundationSize)contentSize {
@@ -47,6 +54,18 @@ C_ASSUME_NONNULL_BEGIN
   self.contentView.frame = CoreFoundationRectangleMake(0, 0, contentSize.width, contentSize.height);
 
   self.contentView.needsLayout = yes;
+}
+
+- (CoreFoundationPoint)contentOffset {
+  return self.bounds.origin;
+}
+
+- (void)setContentOffset:(CoreFoundationPoint)contentOffset {
+  if (CoreFoundationPointIsEqual(contentOffset, self.contentOffset)) {
+    return;
+  }
+
+  self.bounds = CoreFoundationRectangleMake(contentOffset.x, contentOffset.y, self.bounds.size.width, self.bounds.size.height);
 }
 
 - (void)addSubview:(UIView*)view {
