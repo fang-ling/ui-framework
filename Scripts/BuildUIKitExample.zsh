@@ -36,7 +36,8 @@ $SWIFT build \
   -Xswiftc -mexec-model=reactor \
   -Xlinker --allow-undefined \
   -Xlinker --export=main \
-  -Xlinker --export=UIKitDispatchControlEvent
+  -Xlinker --export=UIKitDispatchControlEvent \
+  -Xlinker --export=UIKitDispatchScrollEvent
 
 mkdir -p Resources/JavaScripts
 cp ../javascript-core-kit/Resources/*.js Resources/JavaScripts/

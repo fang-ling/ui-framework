@@ -19,25 +19,21 @@
 
 #import "UIApplication.h"
 
+#import "../User Interface/Container Views/UIScrollView.h"
+
 #import <CoreAnimationKit/CoreAnimationKit.h>
 
 C_ASSUME_NONNULL_BEGIN
 
-static UIControl* UIApplicationFindControlWithTarget(
-  UIView* view,
-  CUnsignedInteger32 target
-) {
-  if (
-    [view isKindOfClass:UIControl.class] &&
-    view.layer.contents.id == target
-  ) {
-    return (UIControl*)view;
+static UIView* UIApplicationFindView(UIView* view, Class class, CUnsignedInteger32 target) {
+  if ([view isKindOfClass:class] && view.layer.contents.id == target) {
+    return view;
   }
 
   for (UIView* subview in view.subviews) {
-    let found = UIApplicationFindControlWithTarget(subview, target);
-    if (found) {
-      return found;
+    let view = UIApplicationFindView(subview, class, target);
+    if (view) {
+      return view;
     }
   }
 
@@ -50,6 +46,18 @@ void UIKitDispatchControlEvent(
 ) {
   [UIApplication.sharedApplication sendEventToTarget:target
                                     forControlEvents:eventType];
+
+  let layer = [UIApplication sharedApplication].keyWindow.layer;
+  [CoreAnimationTransaction flushWithLayer:layer];
+}
+
+void UIKitDispatchScrollEvent(CUnsignedInteger32 target, CFloatingPoint contentOffsetX, CFloatingPoint contentOffsetY) {
+  for (UIWindow* window in UIApplication.sharedApplication.windows) {
+    let scrollView = (UIScrollView*)UIApplicationFindView(window, UIScrollView.class, target);
+    if (scrollView) {
+      scrollView.bounds = CoreFoundationRectangleMake(contentOffsetX, contentOffsetY, scrollView.bounds.size.width, scrollView.bounds.size.height);
+    }
+  }
 
   let layer = [UIApplication sharedApplication].keyWindow.layer;
   [CoreAnimationTransaction flushWithLayer:layer];
@@ -82,7 +90,7 @@ void UIKitDispatchControlEvent(
 - (void)sendEventToTarget:(CUnsignedInteger32)target
          forControlEvents:(UIControlEvents)controlEvents {
   for (UIWindow* window in self.windows) {
-    let control = UIApplicationFindControlWithTarget(window, target);
+    let control = (UIControl*)UIApplicationFindView(window, UIControl.class, target);
     if (control) {
       [control sendActionsForControlEvents:controlEvents];
 
