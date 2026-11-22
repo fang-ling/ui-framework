@@ -3,11 +3,11 @@
 //===----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------===//
 //
 //  Package.swift
-//  ui-kit
+//  ui-framework
 //
 //  Created by Fang Ling on 2025/12/28.
 //
-//  This source file is part of the UIKit open source project
+//  This source file is part of the UIFramework open source project
 //
 //  Copyright (c) 2025-2026 Fang Ling <fangling@fangl.ing>
 //  Licensed under Apache License v2.0
@@ -20,28 +20,23 @@
 
 import PackageDescription
 
-let isDevelopment = false
-
-let dependencies = [
-  ("c-kit", "CKit", "main"),
-  ("core-animation-kit", "CoreAnimationKit", "main"),
-  ("core-foundation-kit", "CoreFoundationKit", "main"),
-  ("core-graphics-kit", "CoreGraphicsKit", "main"),
-  ("foundation-kit", "FoundationKit", "main"),
-  ("java-script-core-kit", "JavaScriptCoreKit", "main"),
-  ("swift-framework", "SwiftFramework", "main")
-]
-
 let package = Package(
-  name: "ui-kit",
+  name: "ui-framework",
   products: [
-    .library(name: "UIKit", targets: ["UIKit"])
+    .library(name: "UIFramework", targets: ["UIFramework"])
   ],
-  dependencies: dependencies.map { isDevelopment ? .package(path: "../\($0.0)") : .package(url: "https://github.com/fang-ling/\($0.0)", branch: $0.2) },
+  dependencies: [
+    .package(path: "../c-framework"),
+    .package(path: "../foundation-framework")
+  ],
   targets: [
     .target(
-      name: "UIKit",
-      dependencies: dependencies.map { .product(name: $0.1, package: $0.0) }
+      name: "UIFramework",
+      dependencies: [
+        .product(name: "CFramework", package: "c-framework"),
+        .product(name: "FoundationFramework", package: "foundation-framework")
+      ],
+      publicHeadersPath: "Includes"
     )
   ]
 )
